@@ -5,7 +5,7 @@
 package com.mycompany.bullcows.models;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  *
@@ -18,13 +18,13 @@ public class BC {
     private int exactWins;
     private boolean finished;
     private int answer;
-    private Date guessTime;
+    private String guessTime;
 
-    public Date getGuessTime() {
+    public String getGuessTime() {
         return guessTime;
     }
 
-    public void setGuessTime(Date guessTime) {
+    public void setGuessTime(String guessTime) {
         this.guessTime = guessTime;
     }
 

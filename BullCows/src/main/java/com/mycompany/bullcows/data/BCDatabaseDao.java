@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -53,11 +53,13 @@ public class BCDatabaseDao implements BCDao {
 
         return game;
     }
-    
+    //Add Guess Time in Postman in YYYY/MM/DD format
+    //Each Round added must go to a previously submitted Game via gameId
     @Override
     public BC addRound(BC round) {
 
-        final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins) VALUES(?,?);";
+        final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
+                + " GuessTime, GameId) VALUES(?,?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((Connection conn) -> {
@@ -68,6 +70,8 @@ public class BCDatabaseDao implements BCDao {
 
             statement.setInt(1, round.getPartialWins());
             statement.setInt(2, round.getExactWins());
+            statement.setString(3, round.getGuessTime());
+            statement.setInt(4, round.getGameId());
             return statement;
 
         }, keyHolder);
@@ -82,14 +86,14 @@ public class BCDatabaseDao implements BCDao {
     
         final String sql = "SELECT game.gameId, game.answer, game.finished, "
                 + "rounds.partialwins, rounds.exactwins, rounds.roundId"
-                + " FROM GAME, ROUNDS WHERE game.gameId = rounds.roundId ORDER BY "
+                + " FROM GAME, ROUNDS ORDER BY "
                 + "game.gameId;";
         return jdbcTemplate.query(sql, new BCMapper());
     }
     
     @Override
     public List<BC> getAllRounds() {
-        final String sql = "SELECT RoundId, PartialWins, ExactWins FROM ROUNDS;";
+        final String sql = "SELECT * FROM ROUNDS;";
         return jdbcTemplate.query(sql, new BCMapperRound());
     }
 
@@ -137,7 +141,7 @@ public class BCDatabaseDao implements BCDao {
         return jdbcTemplate.update(sql,
                 round.getPartialWins(),                
                 round.getExactWins(),
-                round.getGuessTime(),
+                Timestamp.valueOf(round.getGuessTime()),
                 round.getRoundId()) > 0;
     }
 
@@ -158,8 +162,8 @@ public class BCDatabaseDao implements BCDao {
         @Override
         public BC mapRow(ResultSet rs, int index) throws SQLException {
             BC td = new BC();
-            td.setGameId(rs.getInt("GameId"));
-            td.setAnswer(rs.getInt("Answer"));            
+            td.setGameId(rs.getInt("gameId"));
+            td.setAnswer(rs.getInt("answer"));            
             td.setFinished(rs.getBoolean("finished"));
             td.setPartialWins(rs.getInt("partialWins"));
             td.setExactWins(rs.getInt("exactWins"));
@@ -176,8 +180,9 @@ public class BCDatabaseDao implements BCDao {
             BC td = new BC();            
             td.setPartialWins(rs.getInt("partialWins"));
             td.setExactWins(rs.getInt("exactWins"));
-            //td.setGuessTime(rs.getDate("guessTime"));
+            td.setGuessTime(rs.getTimestamp("guessTime").toString());
             td.setRoundId(rs.getInt("roundId"));
+            td.setGameId(rs.getInt("gameId"));
             return td;
         }
     }
