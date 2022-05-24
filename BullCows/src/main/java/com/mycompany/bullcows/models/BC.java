@@ -19,6 +19,15 @@ public class BC {
     private boolean finished;
     private int answer;
     private String guessTime;
+    private int userGuess;
+
+    public int getUserGuess() {
+        return userGuess;
+    }
+
+    public void setUserGuess(int userGuess) {
+        this.userGuess = userGuess;
+    }
 
     public String getGuessTime() {
         return guessTime;

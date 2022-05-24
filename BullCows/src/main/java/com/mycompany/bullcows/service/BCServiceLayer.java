@@ -4,6 +4,9 @@
  */
 package com.mycompany.bullcows.service;
 
+import com.mycompany.bullcows.models.BC;
+import java.util.List;
+
 /**
  *
  * @author leela

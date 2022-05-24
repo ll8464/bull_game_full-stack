@@ -6,6 +6,7 @@ package com.mycompany.bullcows.controller;
 
 import com.mycompany.bullcows.data.BCDao;
 import com.mycompany.bullcows.models.BC;
+import com.mycompany.bullcows.service.BCServiceLayerImpl;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,88 +28,91 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class BCController {
 
-    private final BCDao dao;
+    //private final BCDao dao;
+    private final BCServiceLayerImpl service;
 
-    public BCController(BCDao dao) {
-        this.dao = dao;
+    public BCController(BCDao dao, BCServiceLayerImpl service) {
+        //this.dao = dao;
+        this.service = service;
     }
 
     //GET Requests
     @GetMapping
     public List<BC> all() {
-        return dao.getAll();
+        return service.all();
     }
 
     @GetMapping("/rounds")
     public List<BC> allRounds() {
-        return dao.getAllRounds();
+        return service.allRounds();
     }
 
     @GetMapping("game/{gameId}")
     public BC findById(int gameId) {
 
-        return dao.findById(gameId);
+        return service.findById(gameId);
     }
 
     @GetMapping("/rounds/{roundId}")
     public BC findByRoundId(int roundId) {
 
-        return dao.findById(roundId);
+        return service.findByRoundId(roundId);
     }
 
     //POST Request
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BC create(@RequestBody BC game) {
-        return dao.add(game);
+        return service.create(game);
     }
+
     /*
     This should start the game. It needs to generate a random number from 
-    service layer.
+    service layer.*/
     @PostMapping("begin")
     @ResponseStatus(HttpStatus.CREATED)
     public BC begin(@RequestBody BC game) {
-        return dao.add(game);
-    }      
-    */
-    
+
+        return service.begin(game);
+    }
+
     /*
     This should take in the user input and compare it to the answer. It returns
     the round object with the results filled in. 
+     */
     @PostMapping("guess")
     @ResponseStatus(HttpStatus.CREATED)
     public BC guess(@RequestBody BC game) {
-        return dao.add(game);
+        return service.guess(game);
+
     }
-    
-    */
 
     @PostMapping("/rounds")
     @ResponseStatus(HttpStatus.CREATED)
     public BC createRound(@RequestBody BC round) {
-        return dao.addRound(round);
+        return service.createRound(round);
     }
 
 //PUT REQUESTS
     @PutMapping("/{gameId}")
-    public ResponseEntity update(@PathVariable int gameId, 
+    public ResponseEntity update(@PathVariable int gameId,
             @RequestBody BC game) {
         ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
         if (gameId != game.getGameId()) {
             response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
-        } else if (dao.update(game)) {
+        } else if (service.update(game)) {
             response = new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return response;
     }
-    
+
     @PutMapping("/rounds/{roundId}")
-    public ResponseEntity updateRound(@PathVariable int roundId, 
+    public ResponseEntity updateRound(@PathVariable int roundId,
             @RequestBody BC round) {
         ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
         if (roundId != round.getRoundId()) {
             response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
-        } else if (dao.updateRound(round)) {
+        } else if (service.updateRound(round)) {
             response = new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return response;
@@ -117,18 +121,19 @@ public class BCController {
 //DELETE REQUESTS
     @DeleteMapping("/{gameId}")
     public ResponseEntity delete(@PathVariable int gameId) {
-        if (dao.deleteById(gameId)) {
+        if (service.deleteById(gameId)) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-    
+
     @DeleteMapping("/rounds/{roundId}")
     public ResponseEntity deleteRound(@PathVariable int roundId) {
-        if (dao.deleteByRoundId(roundId)) {
+        if (service.deleteByRoundId(roundId)) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
+
     }
 
 }

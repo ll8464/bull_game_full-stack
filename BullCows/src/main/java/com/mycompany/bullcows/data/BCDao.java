@@ -33,4 +33,8 @@ public interface BCDao {
     boolean deleteById(int id);
     
     boolean deleteByRoundId(int id);
+    
+     public BC begin(int rndDigits,BC game);
+     
+      public BC guessInput(BC round);
 }
