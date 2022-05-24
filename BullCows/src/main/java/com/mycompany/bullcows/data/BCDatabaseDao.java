@@ -83,7 +83,7 @@ public class BCDatabaseDao implements BCDao {
     public BCRounds guessInput(BCRounds round) {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
-                + "  GameId, UserGuess) VALUES(?,?,?,?);";
+                + "  GameId, UserGuess, Results) VALUES(?,?,?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((Connection conn) -> {
@@ -96,6 +96,7 @@ public class BCDatabaseDao implements BCDao {
             statement.setInt(2, round.getExactWins());            
             statement.setInt(3, round.getGameId());
             statement.setInt(4, round.getUserGuess());
+            statement.setString(5, round.getResults());
             return statement;
 
         }, keyHolder);
@@ -136,10 +137,8 @@ public class BCDatabaseDao implements BCDao {
     @Override
     public List<BC> getAll() {
 
-        final String sql = "SELECT game.gameId, game.answer, game.finished, "
-                + "rounds.partialwins, rounds.exactwins, rounds.roundId"
-                + " FROM GAME, ROUNDS ORDER BY "
-                + "game.gameId;";
+        final String sql = "SELECT * "                
+                + " FROM GAME ORDER BY game.gameId;";
         return jdbcTemplate.query(sql, new BCMapper());
     }
 

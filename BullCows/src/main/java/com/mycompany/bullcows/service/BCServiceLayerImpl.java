@@ -71,9 +71,13 @@ public class BCServiceLayerImpl implements BCServiceLayer {
                 dao.findById(game.getGameId()).getAnswer());
         int partial = partialCounter(game.getUserGuess(),
                 dao.findById(game.getGameId()).getAnswer());
+        
+        String results = "e:" +exact+"p:"+partial;
+        
         game.setExactWins(exact);
         game.setPartialWins(partial);
         game.setUserGuess(game.getUserGuess());
+        game.setResults(results);
         return dao.guessInput(game);
     }
 

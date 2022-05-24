@@ -15,6 +15,15 @@ public class BCRounds {
     private int exactWins;
     private String guessTime;
     private int userGuess;
+    private String results;
+
+    public String getResults() {
+        return results;
+    }
+
+    public void setResults(String results) {
+        this.results = results;
+    }
 
     public int getGameId() {
         return gameId;
