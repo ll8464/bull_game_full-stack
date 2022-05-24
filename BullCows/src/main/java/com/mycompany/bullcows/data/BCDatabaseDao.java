@@ -5,6 +5,7 @@
 package com.mycompany.bullcows.data;
 
 import com.mycompany.bullcows.models.BC;
+import com.mycompany.bullcows.models.BCRounds;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -79,10 +80,10 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BC guessInput(BC round) {
+    public BCRounds guessInput(BCRounds round) {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
-                + " GuessTime, GameId) VALUES(?,?,?,?);";
+                + "  GameId, UserGuess) VALUES(?,?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((Connection conn) -> {
@@ -92,9 +93,9 @@ public class BCDatabaseDao implements BCDao {
                     Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, round.getPartialWins());
-            statement.setInt(2, round.getExactWins());
-            statement.setString(3, round.getGuessTime());
-            statement.setInt(4, round.getGameId());
+            statement.setInt(2, round.getExactWins());            
+            statement.setInt(3, round.getGameId());
+            statement.setInt(4, round.getUserGuess());
             return statement;
 
         }, keyHolder);
@@ -107,7 +108,7 @@ public class BCDatabaseDao implements BCDao {
     //Add Guess Time in Postman in YYYY/MM/DD format
     //Each Round added must go to a previously submitted Game via gameId
     @Override
-    public BC addRound(BC round) {
+    public BCRounds addRound(BCRounds round) {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
                 + " GuessTime, GameId) VALUES(?,?,?,?);";
@@ -143,7 +144,7 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public List<BC> getAllRounds() {
+    public List<BCRounds> getAllRounds() {
         final String sql = "SELECT * FROM ROUNDS;";
         return jdbcTemplate.query(sql, new BCMapperRound());
     }
@@ -158,9 +159,9 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BC findByRoundId(int id) {
+    public BCRounds findByRoundId(int id) {
 
-        final String sql = "SELECT RoundId, PartialWin, ExactWin, GuessTime "
+        final String sql = "SELECT RoundId, PartialWin, ExactWin, UserGuess "
                 + "FROM Rounds WHERE RoundId = ?;";
 
         return jdbcTemplate.queryForObject(sql, new BCMapperRound(), id);
@@ -181,7 +182,7 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public boolean updateRound(BC round) {
+    public boolean updateRound(BCRounds round) {
 
         final String sql = "UPDATE ROUNDS SET "
                 + "PartialWins = ?, "
@@ -221,17 +222,16 @@ public class BCDatabaseDao implements BCDao {
     }
 
     //This mapper is for methods that ONLY want Round manipulation
-    private static final class BCMapperRound implements RowMapper<BC> {
+    private static final class BCMapperRound implements RowMapper<BCRounds> {
 
         @Override
-        public BC mapRow(ResultSet rs, int index) throws SQLException {
-            BC td = new BC();
+        public BCRounds mapRow(ResultSet rs, int index) throws SQLException {
+            BCRounds td = new BCRounds();
             td.setPartialWins(rs.getInt("partialWins"));
-            td.setExactWins(rs.getInt("exactWins"));
-            td.setGuessTime(rs.getTimestamp("guessTime").toString());
+            td.setExactWins(rs.getInt("exactWins"));            
             td.setRoundId(rs.getInt("roundId"));
             td.setGameId(rs.getInt("gameId"));
-            td.setUserGuess(rs.getInt("userGuess"));
+            td.setUserGuess(rs.getInt("userGuess"));            
             return td;
         }
     }

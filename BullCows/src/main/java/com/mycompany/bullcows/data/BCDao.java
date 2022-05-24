@@ -5,6 +5,7 @@
 package com.mycompany.bullcows.data;
 
 import com.mycompany.bullcows.models.BC;
+import com.mycompany.bullcows.models.BCRounds;
 import java.util.List;
 
 /**
@@ -17,18 +18,18 @@ public interface BCDao {
 
     List<BC> getAll();
 
-    List<BC> getAllRounds();
+    List<BCRounds> getAllRounds();
 
-    BC addRound(BC round);
+    BCRounds addRound(BCRounds round);
 
     BC findById(int id);
 
-    public BC findByRoundId(int id);
+    public BCRounds findByRoundId(int id);
 
     // true if item exists and is updated
     boolean update(BC game);
 
-    boolean updateRound(BC round);
+    boolean updateRound(BCRounds round);
 
     // true if item exists and is deleted
     boolean deleteById(int id);
@@ -37,5 +38,5 @@ public interface BCDao {
 
     public BC begin(int rndDigits, BC game);
 
-    public BC guessInput(BC round);
+    public BCRounds guessInput(BCRounds round);
 }

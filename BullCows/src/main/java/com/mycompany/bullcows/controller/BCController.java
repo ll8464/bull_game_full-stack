@@ -6,6 +6,7 @@ package com.mycompany.bullcows.controller;
 
 import com.mycompany.bullcows.data.BCDao;
 import com.mycompany.bullcows.models.BC;
+import com.mycompany.bullcows.models.BCRounds;
 import com.mycompany.bullcows.service.BCServiceLayerImpl;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class BCController {
     }
 
     @GetMapping("/rounds")
-    public List<BC> allRounds() {
+    public List<BCRounds> allRounds() {
         return service.allRounds();
     }
 
@@ -54,7 +55,7 @@ public class BCController {
     }
 
     @GetMapping("/rounds/{roundId}")
-    public BC findByRoundId(int roundId) {
+    public BCRounds findByRoundId(int roundId) {
 
         return service.findByRoundId(roundId);
     }
@@ -82,14 +83,14 @@ public class BCController {
      */
     @PostMapping("guess")
     @ResponseStatus(HttpStatus.CREATED)
-    public BC guess(@RequestBody BC game) {
+    public BCRounds guess(@RequestBody BCRounds game) {
         return service.guess(game);
 
     }
 
     @PostMapping("/rounds")
     @ResponseStatus(HttpStatus.CREATED)
-    public BC createRound(@RequestBody BC round) {
+    public BCRounds createRound(@RequestBody BCRounds round) {
         return service.createRound(round);
     }
 
@@ -108,7 +109,7 @@ public class BCController {
 
     @PutMapping("/rounds/{roundId}")
     public ResponseEntity updateRound(@PathVariable int roundId,
-            @RequestBody BC round) {
+            @RequestBody BCRounds round) {
         ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
         if (roundId != round.getRoundId()) {
             response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);

@@ -11,3 +11,4 @@ com\mycompany\bullcows\data\BCDao.class
 com\sg\classroster\ui\UserIOConsoleImpl.class
 com\mycompany\bullcows\service\BCServiceLayer.class
 com\mycompany\bullcows\ui\BCView.class
+com\mycompany\bullcows\data\BCDatabaseDao$BCMapperRound.class

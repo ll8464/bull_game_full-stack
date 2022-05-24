@@ -5,6 +5,7 @@
 package com.mycompany.bullcows.service;
 
 import com.mycompany.bullcows.models.BC;
+import com.mycompany.bullcows.models.BCRounds;
 import java.util.List;
 
 /**
@@ -15,19 +16,19 @@ public interface BCServiceLayer {
 
     public List<BC> all();
 
-    public List<BC> allRounds();
+    public List<BCRounds> allRounds();
 
     public BC findById(int gameId);
 
     public BC begin(BC game);
 
-    public BC findByRoundId(int roundId);
+    public BCRounds findByRoundId(int roundId);
 
     public BC create(BC game);
 
-    public BC createRound(BC round);
+    public BCRounds createRound(BCRounds round);
 
-    public BC guess(BC game);
+    public BCRounds guess(BCRounds game);
 
     public boolean update(BC game);
 
@@ -35,7 +36,7 @@ public interface BCServiceLayer {
 
     public boolean deleteByRoundId(int roundId);
 
-    public boolean updateRound(BC round);
+    public boolean updateRound(BCRounds round);
 
     public int getDigits();
 

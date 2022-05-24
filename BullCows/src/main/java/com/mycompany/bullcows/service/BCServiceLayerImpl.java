@@ -6,6 +6,7 @@ package com.mycompany.bullcows.service;
 
 import com.mycompany.bullcows.data.BCDao;
 import com.mycompany.bullcows.models.BC;
+import com.mycompany.bullcows.models.BCRounds;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,7 +33,7 @@ public class BCServiceLayerImpl implements BCServiceLayer {
     }
 
     @Override
-    public List<BC> allRounds() {
+    public List<BCRounds> allRounds() {
         return dao.getAllRounds();
     }
 
@@ -49,9 +50,9 @@ public class BCServiceLayerImpl implements BCServiceLayer {
     }
 
     @Override
-    public BC findByRoundId(int roundId) {
+    public BCRounds findByRoundId(int roundId) {
 
-        return dao.findById(roundId);
+        return dao.findByRoundId(roundId);
     }
 
     @Override
@@ -60,18 +61,19 @@ public class BCServiceLayerImpl implements BCServiceLayer {
     }
 
     @Override
-    public BC createRound(BC round) {
+    public BCRounds createRound(BCRounds round) {
         return dao.addRound(round);
     }
 
     @Override
-    public BC guess(BC game) {
+    public BCRounds guess(BCRounds game) {
         int exact = exactCounter(game.getUserGuess(),
                 dao.findById(game.getGameId()).getAnswer());
         int partial = partialCounter(game.getUserGuess(),
                 dao.findById(game.getGameId()).getAnswer());
         game.setExactWins(exact);
         game.setPartialWins(partial);
+        game.setUserGuess(game.getUserGuess());
         return dao.guessInput(game);
     }
 
@@ -91,7 +93,7 @@ public class BCServiceLayerImpl implements BCServiceLayer {
     }
 
     @Override
-    public boolean updateRound(BC round) {
+    public boolean updateRound(BCRounds round) {
         return dao.updateRound(round);
     }
 
