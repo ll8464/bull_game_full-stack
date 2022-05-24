@@ -6,14 +6,8 @@ package com.mycompany.bullcows.service;
 
 import com.mycompany.bullcows.data.BCDao;
 import com.mycompany.bullcows.models.BC;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -25,21 +19,84 @@ public class BCServiceLayerImpl implements BCServiceLayer {
 
     @Autowired
     BCDao dao;
-//    public BCServiceLayerImpl() {       
-//    }
-//    public BCServiceLayerImpl(BCDao dao) {
-//        this.dao = dao;
-//    }
 
     private static BCServiceLayerImpl obj = new BCServiceLayerImpl();
 
-//    int num1 = (int) (Math.random() * (9 - 0));
-//    int num2 = (int) (Math.random() * (9 - 0));
-//    int num3 = (int) (Math.random() * (9 - 0));
-//    int num4 = (int) (Math.random() * (9 - 0));
     int partialWins;
     int exactWins;
 
+    //Database Manipulation via Dao
+    @Override
+    public List<BC> all() {
+        return dao.getAll();
+    }
+
+    @Override
+    public List<BC> allRounds() {
+        return dao.getAllRounds();
+    }
+
+    @Override
+    public BC findById(int gameId) {
+
+        return dao.findById(gameId);
+    }
+
+    @Override
+    public BC begin(BC game) {
+        int randomDigits = getDigits();
+        return dao.begin(randomDigits, game);
+    }
+
+    @Override
+    public BC findByRoundId(int roundId) {
+
+        return dao.findById(roundId);
+    }
+
+    @Override
+    public BC create(BC game) {
+        return dao.add(game);
+    }
+
+    @Override
+    public BC createRound(BC round) {
+        return dao.addRound(round);
+    }
+
+    @Override
+    public BC guess(BC game) {
+        int exact = exactCounter(game.getUserGuess(),
+                dao.findById(game.getGameId()).getAnswer());
+        int partial = partialCounter(game.getUserGuess(),
+                dao.findById(game.getGameId()).getAnswer());
+        game.setExactWins(exact);
+        game.setPartialWins(partial);
+        return dao.guessInput(game);
+    }
+
+    @Override
+    public boolean update(BC game) {
+        return dao.update(game);
+    }
+
+    @Override
+    public boolean deleteById(int gameId) {
+        return dao.deleteById(gameId);
+    }
+
+    @Override
+    public boolean deleteByRoundId(int roundId) {
+        return dao.deleteByRoundId(roundId);
+    }
+
+    @Override
+    public boolean updateRound(BC round) {
+        return dao.updateRound(round);
+    }
+
+    //Calculations
+    @Override
     public int getDigits() {
         int num1 = (int) (Math.random() * (9 - 0));
         int num2 = (int) (Math.random() * (9 - 0));
@@ -70,75 +127,27 @@ public class BCServiceLayerImpl implements BCServiceLayer {
 
     }
 
-    public List<BC> all() {
-        return dao.getAll();
-    }
-
-    public List<BC> allRounds() {
-        return dao.getAllRounds();
-    }
-
-    public BC findById(int gameId) {
-
-        return dao.findById(gameId);
-    }
-
-    public BC begin(BC game) {
-        int randomDigits = getDigits();
-        return dao.begin(randomDigits, game);
-    }
-
-    public BC findByRoundId(int roundId) {
-
-        return dao.findById(roundId);
-    }
-
-    public BC create(BC game) {
-        return dao.add(game);
-    }
-
-    public BC createRound(BC round) {
-        return dao.addRound(round);
-    }
-
-    public BC guess(BC game) {
-        int exact = exactCounter(game.getUserGuess(), dao.findById(game.getGameId()).getAnswer());
-        int partial = partialCounter(game.getUserGuess(), dao.findById(game.getGameId()).getAnswer());
-        game.setExactWins(exact);
-        game.setPartialWins(partial);
-        return dao.guessInput(game);
-    }
-
-    public boolean update(BC game) {
-        return dao.update(game);
-    }
-
-    public boolean deleteById(int gameId) {
-        return dao.deleteById(gameId);
-    }
-
-    public boolean deleteByRoundId(int roundId) {
-        return dao.deleteByRoundId(roundId);
-    }
-
-    public boolean updateRound(BC round) {
-        return dao.updateRound(round);
-    }
-
     // Guess: 1234 => "e4p0"
     // Guess: 1432 => "e2p2"
     // Guess: 4321 => "e0p4"
+    @Override
     public int exactCounter(int userGuess, int answer) {
         //Checks for exact wins 
+        //Converts ints to String to allow comparision of digits
+        String userInput = Integer.toString(userGuess);
+        String ans = Integer.toString(answer);
 
-        if (userGuess == answer) {
-            exactWins++;
+        //Loops through each digit to count up exact Wins
+        for (int i = 0; i < 4; i++) {
+            if (userInput.charAt(i) == ans.charAt(i)) {
+                exactWins++;
+            }
         }
         obj.exactWins = exactWins;
-
         return obj.exactWins;
     }
 
+    @Override
     public int partialCounter(int userGuess, int answer) {
         //Converts ints to String to allow comparision of digits
         String userInput = Integer.toString(userGuess);
@@ -146,8 +155,10 @@ public class BCServiceLayerImpl implements BCServiceLayer {
 
         //UserInputs
         //Loops through each digit to count up partial Wins
+        //The != ensures the exact Wins are not included in the count
         for (int i = 0; i < 4; i++) {
-            if (userInput.charAt(i) == ans.charAt(i)) {
+            if (userInput.indexOf(ans.charAt(i)) > -1 && userInput.charAt(i)
+                    != ans.charAt(i)) {
                 partialWins++;
             }
 

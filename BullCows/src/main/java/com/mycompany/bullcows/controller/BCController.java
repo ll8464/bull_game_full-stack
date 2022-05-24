@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class BCController {
 
-    //private final BCDao dao;
+    
     private final BCServiceLayerImpl service;
 
     public BCController(BCDao dao, BCServiceLayerImpl service) {
-        //this.dao = dao;
+        
         this.service = service;
     }
 

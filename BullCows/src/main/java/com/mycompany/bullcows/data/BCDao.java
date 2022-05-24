@@ -12,29 +12,30 @@ import java.util.List;
  * @author leela
  */
 public interface BCDao {
+
     BC add(BC game);
 
     List<BC> getAll();
-    
-    List<BC> getAllRounds(); 
-    
+
+    List<BC> getAllRounds();
+
     BC addRound(BC round);
 
     BC findById(int id);
-    
+
     public BC findByRoundId(int id);
 
     // true if item exists and is updated
     boolean update(BC game);
-    
+
     boolean updateRound(BC round);
 
     // true if item exists and is deleted
     boolean deleteById(int id);
-    
+
     boolean deleteByRoundId(int id);
-    
-     public BC begin(int rndDigits,BC game);
-     
-      public BC guessInput(BC round);
+
+    public BC begin(int rndDigits, BC game);
+
+    public BC guessInput(BC round);
 }
