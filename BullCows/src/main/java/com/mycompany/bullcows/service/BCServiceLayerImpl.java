@@ -71,23 +71,24 @@ public class BCServiceLayerImpl implements BCServiceLayer {
     }
 
     @Override
-    public BCRounds guess(BCRounds game) throws BCDuplicateIdException,
+    public BCRounds guess(BCRounds round) throws BCDuplicateIdException,
             BCDataValidationException, BCPersistenceException {
-        int exact = exactCounter(game.getUserGuess(),
-                dao.findById(game.getGameId()).getAnswer());
-        int partial = partialCounter(game.getUserGuess(),
-                dao.findById(game.getGameId()).getAnswer());
+        int exact = exactCounter(round.getUserGuess(),
+                dao.findById(round.getGameId()).getAnswer());
+        int partial = partialCounter(round.getUserGuess(),
+                dao.findById(round.getGameId()).getAnswer());
         
-        //if (game.getUserGuess() == game.getGameId()).getAnswer()){
+        if (round.getUserGuess() == dao.findById(round.getGameId()).getAnswer() ){
+            dao.findById(round.getGameId()).setFinished(true);}
     
     
         String results = "e:" +exact+"p:"+partial;
         
-        game.setExactWins(exact);
-        game.setPartialWins(partial);
-        game.setUserGuess(game.getUserGuess());
-        game.setResults(results);
-        return dao.guessInput(game);
+        round.setExactWins(exact);
+        round.setPartialWins(partial);
+        round.setUserGuess(round.getUserGuess());
+        round.setResults(results);
+        return dao.guessInput(round);
     }
 
     @Override
