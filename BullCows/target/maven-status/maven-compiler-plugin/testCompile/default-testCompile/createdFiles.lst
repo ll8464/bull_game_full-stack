@@ -1,0 +1,4 @@
+com\mycompany\bullcows\data\BCDatabaseDaoStub.class
+com\mycompany\bullcows\service\BCServiceLayerImplTest.class
+com\mycompany\bullcows\service\BCServiceLayerStub.class
+com\mycompany\bullcows\data\BCDatabaseDaoTest.class

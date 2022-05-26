@@ -5,8 +5,11 @@
 package com.mycompany.bullcows.controller;
 
 import com.mycompany.bullcows.data.BCDao;
+import com.mycompany.bullcows.data.BCPersistenceException;
 import com.mycompany.bullcows.models.BC;
 import com.mycompany.bullcows.models.BCRounds;
+import com.mycompany.bullcows.service.BCDataValidationException;
+import com.mycompany.bullcows.service.BCDuplicateIdException;
 import com.mycompany.bullcows.service.BCServiceLayerImpl;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -39,23 +42,25 @@ public class BCController {
 
     //GET Requests
     @GetMapping
-    public List<BC> all() {
+    public List<BC> all() throws BCPersistenceException {
         return service.all();
     }
 
     @GetMapping("/rounds")
-    public List<BCRounds> allRounds() {
+    public List<BCRounds> allRounds() throws BCPersistenceException {
         return service.allRounds();
     }
 
     @GetMapping("game/{gameId}")
-    public BC findById(int gameId) {
+    public BC findById(int gameId) throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
 
         return service.findById(gameId);
     }
 
     @GetMapping("/rounds/{roundId}")
-    public BCRounds findByRoundId(int roundId) {
+    public BCRounds findByRoundId(int roundId) throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
 
         return service.findByRoundId(roundId);
     }
@@ -63,7 +68,8 @@ public class BCController {
     //POST Request
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BC create(@RequestBody BC game) {
+    public BC create(@RequestBody BC game) throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
         return service.create(game);
     }
 
@@ -72,7 +78,8 @@ public class BCController {
     service layer.*/
     @PostMapping("begin")
     @ResponseStatus(HttpStatus.CREATED)
-    public BC begin(@RequestBody BC game) {
+    public BC begin(@RequestBody BC game) throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
 
         return service.begin(game);
     }
@@ -83,21 +90,26 @@ public class BCController {
      */
     @PostMapping("guess")
     @ResponseStatus(HttpStatus.CREATED)
-    public BCRounds guess(@RequestBody BCRounds game) {
+    public BCRounds guess(@RequestBody BCRounds game) 
+            throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
         return service.guess(game);
 
     }
 
     @PostMapping("/rounds")
     @ResponseStatus(HttpStatus.CREATED)
-    public BCRounds createRound(@RequestBody BCRounds round) {
+    public BCRounds createRound(@RequestBody BCRounds round) 
+            throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
         return service.createRound(round);
     }
 
 //PUT REQUESTS
     @PutMapping("/{gameId}")
     public ResponseEntity update(@PathVariable int gameId,
-            @RequestBody BC game) {
+            @RequestBody BC game)throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
         ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
         if (gameId != game.getGameId()) {
             response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -109,7 +121,8 @@ public class BCController {
 
     @PutMapping("/rounds/{roundId}")
     public ResponseEntity updateRound(@PathVariable int roundId,
-            @RequestBody BCRounds round) {
+            @RequestBody BCRounds round) throws BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException{
         ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
         if (roundId != round.getRoundId()) {
             response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -121,7 +134,9 @@ public class BCController {
 
 //DELETE REQUESTS
     @DeleteMapping("/{gameId}")
-    public ResponseEntity delete(@PathVariable int gameId) {
+    public ResponseEntity delete(@PathVariable int gameId) throws 
+            BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException {
         if (service.deleteById(gameId)) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
@@ -129,7 +144,9 @@ public class BCController {
     }
 
     @DeleteMapping("/rounds/{roundId}")
-    public ResponseEntity deleteRound(@PathVariable int roundId) {
+    public ResponseEntity deleteRound(@PathVariable int roundId) throws 
+            BCPersistenceException,
+            BCDuplicateIdException, BCDataValidationException{
         if (service.deleteByRoundId(roundId)) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }

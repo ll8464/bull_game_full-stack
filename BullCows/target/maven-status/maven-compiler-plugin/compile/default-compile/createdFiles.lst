@@ -1,3 +1,4 @@
+com\mycompany\bullcows\data\BCPersistenceException.class
 com\mycompany\bullcows\data\BCDatabaseDao$1.class
 com\mycompany\bullcows\controller\BCController.class
 com\mycompany\bullcows\data\BCDatabaseDao$BCMapper.class
@@ -7,8 +8,11 @@ com\mycompany\bullcows\service\BCServiceLayerImpl.class
 com\mycompany\bullcows\data\BCDatabaseDao.class
 com\mycompany\bullcows\models\BC.class
 com\mycompany\bullcows\App.class
+com\mycompany\bullcows\service\BCDuplicateIdException.class
+com\mycompany\bullcows\models\BCRounds.class
 com\mycompany\bullcows\data\BCDao.class
 com\sg\classroster\ui\UserIOConsoleImpl.class
 com\mycompany\bullcows\service\BCServiceLayer.class
 com\mycompany\bullcows\ui\BCView.class
+com\mycompany\bullcows\service\BCDataValidationException.class
 com\mycompany\bullcows\data\BCDatabaseDao$BCMapperRound.class

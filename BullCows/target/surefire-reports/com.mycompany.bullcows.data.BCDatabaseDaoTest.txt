@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.mycompany.bullcows.data.BCDatabaseDaoTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.032 sec <<< FAILURE! - in com.mycompany.bullcows.data.BCDatabaseDaoTest
+testAdd  Time elapsed: 0.025 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.mycompany.bullcows.data.BCDatabaseDaoTest.testAdd(BCDatabaseDaoTest.java:37)
+
+testFindById  Time elapsed: 0 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.mycompany.bullcows.data.BCDatabaseDaoTest.testFindById(BCDatabaseDaoTest.java:68)
+
+testGetAll  Time elapsed: 0.001 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.mycompany.bullcows.data.BCDatabaseDaoTest.testGetAll(BCDatabaseDaoTest.java:52)
+

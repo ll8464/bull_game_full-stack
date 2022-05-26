@@ -6,6 +6,8 @@ package com.mycompany.bullcows.data;
 
 import com.mycompany.bullcows.models.BC;
 import com.mycompany.bullcows.models.BCRounds;
+import com.mycompany.bullcows.service.BCDataValidationException;
+import com.mycompany.bullcows.service.BCDuplicateIdException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +36,8 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BC add(BC game) {
+    public BC add(BC game) throws BCDuplicateIdException,
+            BCDataValidationException, BCPersistenceException {
 
         final String sql = "INSERT INTO GAME(Answer, Finished) VALUES(?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -57,7 +60,8 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BC begin(int rndDigits, BC game) {
+    public BC begin(int rndDigits, BC game) throws BCDuplicateIdException,
+            BCDataValidationException, BCPersistenceException {
 
         final String sql = "INSERT INTO GAME(Answer, Finished) VALUES(?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -80,7 +84,8 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BCRounds guessInput(BCRounds round) {
+    public BCRounds guessInput(BCRounds round)  throws BCDuplicateIdException,
+            BCDataValidationException, BCPersistenceException {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
                 + "  GameId, UserGuess, Results) VALUES(?,?,?,?,?);";
@@ -109,7 +114,8 @@ public class BCDatabaseDao implements BCDao {
     //Add Guess Time in Postman in YYYY/MM/DD format
     //Each Round added must go to a previously submitted Game via gameId
     @Override
-    public BCRounds addRound(BCRounds round) {
+    public BCRounds addRound(BCRounds round)  throws BCDuplicateIdException,
+            BCDataValidationException, BCPersistenceException {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
                 + " GuessTime, GameId) VALUES(?,?,?,?);";
@@ -135,7 +141,7 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public List<BC> getAll() {
+    public List<BC> getAll() throws BCPersistenceException {
 
         final String sql = "SELECT * "                
                 + " FROM GAME ORDER BY game.gameId;";
@@ -143,13 +149,14 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public List<BCRounds> getAllRounds() {
+    public List<BCRounds> getAllRounds() throws BCPersistenceException {
         final String sql = "SELECT * FROM ROUNDS;";
         return jdbcTemplate.query(sql, new BCMapperRound());
     }
 
     @Override
-    public BC findById(int id) {
+    public BC findById(int id) throws BCDuplicateIdException,
+            BCDataValidationException {
 
         final String sql = "SELECT GameId, Answer, Finished "
                 + "FROM GAME WHERE GameId = ?";
@@ -158,7 +165,8 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BCRounds findByRoundId(int id) {
+    public BCRounds findByRoundId(int id) throws BCDuplicateIdException,
+            BCDataValidationException {
 
         final String sql = "SELECT RoundId, PartialWin, ExactWin, UserGuess "
                 + "FROM Rounds WHERE RoundId = ?;";
@@ -167,7 +175,8 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public boolean update(BC game) {
+    public boolean update(BC game) throws BCDuplicateIdException,
+            BCDataValidationException {
 
         final String sql = "UPDATE GAME SET "
                 + "Answer = ?, "
@@ -181,7 +190,8 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public boolean updateRound(BCRounds round) {
+    public boolean updateRound(BCRounds round) throws BCDuplicateIdException,
+            BCDataValidationException {
 
         final String sql = "UPDATE ROUNDS SET "
                 + "PartialWins = ?, "
@@ -197,13 +207,15 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(int id) throws BCDuplicateIdException,
+            BCDataValidationException {
         final String sql = "DELETE FROM GAME WHERE GameId = ?;";
         return jdbcTemplate.update(sql, id) > 0;
     }
 
     @Override
-    public boolean deleteByRoundId(int id) {
+    public boolean deleteByRoundId(int id) throws BCDuplicateIdException,
+            BCDataValidationException {
         final String sql = "DELETE FROM ROUNDS WHERE roundId = ?;";
         return jdbcTemplate.update(sql, id) > 0;
     }
