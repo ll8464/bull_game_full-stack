@@ -46,6 +46,8 @@ public class BCDatabaseDaoStub implements BCDao {
     @Override
     public BC add(BC game) throws BCPersistenceException,
             BCDataValidationException, BCDuplicateIdException {
+        //BC game2 = this.game;
+        
         if (game.getGameId()==(this.game.getGameId())){
             return game;
         }

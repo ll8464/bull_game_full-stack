@@ -1,16 +1,22 @@
 -------------------------------------------------------------------------------
 Test set: com.mycompany.bullcows.data.BCDatabaseDaoTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.032 sec <<< FAILURE! - in com.mycompany.bullcows.data.BCDatabaseDaoTest
-testAdd  Time elapsed: 0.025 sec  <<< ERROR!
-java.lang.NullPointerException
-	at com.mycompany.bullcows.data.BCDatabaseDaoTest.testAdd(BCDatabaseDaoTest.java:37)
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 2.324 sec <<< FAILURE! - in com.mycompany.bullcows.data.BCDatabaseDaoTest
+testAdd  Time elapsed: 0.002 sec  <<< ERROR!
+org.junit.jupiter.api.extension.ParameterResolutionException: Failed to resolve parameter [com.mycompany.bullcows.data.BCDatabaseDao testDao] in constructor [public com.mycompany.bullcows.data.BCDatabaseDaoTest(com.mycompany.bullcows.data.BCDatabaseDao)]: Failed to load ApplicationContext
+Caused by: java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'BCDatabaseDaoStub': Unsatisfied dependency expressed through field 'game'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.mycompany.bullcows.models.BC' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.mycompany.bullcows.models.BC' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 
-testFindById  Time elapsed: 0 sec  <<< ERROR!
-java.lang.NullPointerException
-	at com.mycompany.bullcows.data.BCDatabaseDaoTest.testFindById(BCDatabaseDaoTest.java:68)
+testFindById  Time elapsed: 0.001 sec  <<< ERROR!
+org.junit.jupiter.api.extension.ParameterResolutionException: Failed to resolve parameter [com.mycompany.bullcows.data.BCDatabaseDao testDao] in constructor [public com.mycompany.bullcows.data.BCDatabaseDaoTest(com.mycompany.bullcows.data.BCDatabaseDao)]: Failed to load ApplicationContext
+Caused by: java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'BCDatabaseDaoStub': Unsatisfied dependency expressed through field 'game'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.mycompany.bullcows.models.BC' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.mycompany.bullcows.models.BC' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 
-testGetAll  Time elapsed: 0.001 sec  <<< ERROR!
-java.lang.NullPointerException
-	at com.mycompany.bullcows.data.BCDatabaseDaoTest.testGetAll(BCDatabaseDaoTest.java:52)
+testGetAll  Time elapsed: 0 sec  <<< ERROR!
+org.junit.jupiter.api.extension.ParameterResolutionException: Failed to resolve parameter [com.mycompany.bullcows.data.BCDatabaseDao testDao] in constructor [public com.mycompany.bullcows.data.BCDatabaseDaoTest(com.mycompany.bullcows.data.BCDatabaseDao)]: Failed to load ApplicationContext
+Caused by: java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'BCDatabaseDaoStub': Unsatisfied dependency expressed through field 'game'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.mycompany.bullcows.models.BC' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.mycompany.bullcows.models.BC' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 
