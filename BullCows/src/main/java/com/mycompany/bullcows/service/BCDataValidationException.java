@@ -9,6 +9,7 @@ package com.mycompany.bullcows.service;
  * @author leela
  */
 public class BCDataValidationException extends Exception {
+
     public BCDataValidationException(String message) {
         super(message);
     }

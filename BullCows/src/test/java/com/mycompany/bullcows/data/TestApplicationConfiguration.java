@@ -15,9 +15,9 @@ import org.springframework.context.annotation.FilterType;
  * @author leela
  */
 @Configuration
-@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, 
+@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
         value = CommandLineRunner.class))
 @EnableAutoConfiguration
 public class TestApplicationConfiguration {
-    
+
 }

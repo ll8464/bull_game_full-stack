@@ -20,16 +20,15 @@ import org.springframework.boot.test.context.SpringBootTest;
  *
  * @author leela
  */
-
 //@RunWith(SpringRunner.class)
-@SpringBootTest (classes = TestApplicationConfiguration.class)
+@SpringBootTest(classes = TestApplicationConfiguration.class)
 
 public class BCDatabaseDaoTest {
- 
+
     @Autowired
     BCDatabaseDao testDao;
-    
-    @Autowired    
+
+    @Autowired
     public BCDatabaseDaoTest(BCDatabaseDao testDao) {
         this.testDao = testDao;
     }
@@ -41,95 +40,93 @@ public class BCDatabaseDaoTest {
         game.setGameId(1);
         game.setAnswer(1234);
         game.setFinished(true);
-        
-        
-        try{
+
+        try {
             testDao.add(game);
-        }catch (BCDuplicateIdException|BCDataValidationException|
-                BCPersistenceException e){
-        fail("Game was valid. No exception should have been thrown.");
+        } catch (BCDuplicateIdException | BCDataValidationException
+                | BCPersistenceException e) {
+            fail("Game was valid. No exception should have been thrown.");
         }
     }
-    
+
     @Test
     public void testGetAll() throws Exception {
-        
+
         BC game = new BC();
         game.setGameId(1);
         game.setAnswer(1234);
         game.setFinished(true);
-        
+
         testDao.add(game);
-        
-        assertEquals( 1, testDao.getAll().size(), 
-                                   "There are 1 games.");
-    assertTrue( testDao.getAll().contains(game),
-                              "The only game should be 1.");
-        
+
+        assertEquals(1, testDao.getAll().size(),
+                "There are 1 games.");
+        assertTrue(testDao.getAll().contains(game),
+                "The only game should be 1.");
+
     }
-    
+
     @Test
     public void testFindById() throws BCDuplicateIdException,
-            BCDataValidationException{
-        
+            BCDataValidationException {
+
         BC game = new BC();
         game.setGameId(1);
         game.setAnswer(1234);
         game.setFinished(true);
-        
+
         BC shouldBeOne = testDao.findById(1);
-        
+
         assertNotNull(shouldBeOne, "Game should be not null");
-        assertEquals(shouldBeOne.getGameId(),1, "GameId should be 1.");
-                        
+        assertEquals(shouldBeOne.getGameId(), 1, "GameId should be 1.");
+
     }
-    
+
     @Test
     public void testUpdate() throws BCDuplicateIdException,
             BCDataValidationException,
             BCPersistenceException {
         BC game = new BC();
-        
+
         testDao.add(game);
-    
+
         assertTrue(testDao.update(game));
     }
-    
+
     @Test
     public void testDeleteById() throws BCDuplicateIdException,
             BCDataValidationException,
             BCPersistenceException {
         BC game = new BC();
         game.setGameId(1);
-        
+
         testDao.add(game);
-    
+
         assertTrue(testDao.deleteById(game.getGameId()));
     }
-    
+
     @Test
     public void begin() throws BCDuplicateIdException,
             BCDataValidationException,
             BCPersistenceException {
         BC game = new BC();
         game.setGameId(1);
-                        
+
         testDao.add(game);
-    
-        assertNotNull(testDao.begin(game.getGameId() ,game));
+
+        assertNotNull(testDao.begin(game.getGameId(), game));
     }
-    
-   @Test
+
+    @Test
     public void guessInput() throws BCDuplicateIdException,
             BCDataValidationException,
             BCPersistenceException {
         BCRounds round = new BCRounds();
         round.setGameId(1);
-                        
+
         testDao.addRound(round);
-    
+
         assertNotNull(testDao.guessInput(round));
     }
-    
-    
+
 }

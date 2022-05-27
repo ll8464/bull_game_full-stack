@@ -49,12 +49,12 @@ public interface BCServiceLayer {
     public boolean updateRound(BCRounds round) throws BCDuplicateIdException,
             BCDataValidationException;
 
-    public int getDigits()throws BCPersistenceException;
+    public int getDigits() throws BCPersistenceException;
 
     public int exactCounter(int userGuess, int answer)
             throws BCPersistenceException;
 
-    public int partialCounter(int userGuess, int answer) 
+    public int partialCounter(int userGuess, int answer)
             throws BCPersistenceException;
 
 }

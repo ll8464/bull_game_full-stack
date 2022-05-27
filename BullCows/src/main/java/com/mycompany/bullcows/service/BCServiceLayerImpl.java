@@ -40,7 +40,7 @@ public class BCServiceLayerImpl implements BCServiceLayer {
 
     @Override
     public BC findById(int gameId) throws BCDuplicateIdException,
-            BCDataValidationException{        
+            BCDataValidationException {
         return dao.findById(gameId);
     }
 
@@ -77,13 +77,13 @@ public class BCServiceLayerImpl implements BCServiceLayer {
                 dao.findById(round.getGameId()).getAnswer());
         int partial = partialCounter(round.getUserGuess(),
                 dao.findById(round.getGameId()).getAnswer());
-        
-        if (round.getUserGuess() == dao.findById(round.getGameId()).getAnswer() ){
-            dao.findById(round.getGameId()).setFinished(true);}
-    
-    
-        String results = "e:" +exact+"p:"+partial;
-        
+
+        if (round.getUserGuess() == dao.findById(round.getGameId()).getAnswer()) {
+            dao.findById(round.getGameId()).setFinished(true);
+        }
+
+        String results = "e:" + exact + "p:" + partial;
+
         round.setExactWins(exact);
         round.setPartialWins(partial);
         round.setUserGuess(round.getUserGuess());
@@ -132,15 +132,19 @@ public class BCServiceLayerImpl implements BCServiceLayer {
             } else if (num3 == num4) {
                 num3++;
             }
-            
-            if (num1>9){
-            num1--;}
-            if (num2>9){
-            num2--;}
-            if (num3>9){
-            num3--;}
-            if (num4>9){
-            num4--;}
+
+            if (num1 > 9) {
+                num1--;
+            }
+            if (num2 > 9) {
+                num2--;
+            }
+            if (num3 > 9) {
+                num3--;
+            }
+            if (num4 > 9) {
+                num4--;
+            }
             //The loop only stops when none of the digits match
             if (num1 != num2 && num1 != num3 && num1 != num4 && num2 != num3
                     && num2 != num4 && num3 != num4) {
@@ -160,7 +164,7 @@ public class BCServiceLayerImpl implements BCServiceLayer {
     // Guess: 1432 => "e2p2"
     // Guess: 4321 => "e0p4"
     @Override
-    public int exactCounter(int userGuess, int answer) 
+    public int exactCounter(int userGuess, int answer)
             throws BCPersistenceException {
         //Checks for exact wins 
         //Converts ints to String to allow comparision of digits
@@ -179,7 +183,7 @@ public class BCServiceLayerImpl implements BCServiceLayer {
 
     @Override
     public int partialCounter(int userGuess, int answer)
-            throws BCPersistenceException{
+            throws BCPersistenceException {
         //Converts ints to String to allow comparision of digits
         String userInput = Integer.toString(userGuess);
         String ans = Integer.toString(answer);

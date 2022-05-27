@@ -9,9 +9,12 @@ package com.mycompany.bullcows.data;
  * @author leela
  */
 public class BCPersistenceException extends Exception {
-    public BCPersistenceException(String message){
-    super(message);}
-    
-    public BCPersistenceException (String message, Throwable cause){
-    super(message,cause);}
+
+    public BCPersistenceException(String message) {
+        super(message);
+    }
+
+    public BCPersistenceException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

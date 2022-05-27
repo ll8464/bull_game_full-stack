@@ -9,6 +9,7 @@ package com.mycompany.bullcows.service;
  * @author leela
  */
 public class BCDuplicateIdException extends Exception {
+
     public BCDuplicateIdException(String message) {
         super(message);
     }

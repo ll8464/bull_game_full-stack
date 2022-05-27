@@ -57,19 +57,19 @@ public class BCServiceLayerStub implements BCServiceLayer {
             return null;
         }
     }
-    
+
     @Override
-    public List<BC> all() throws BCPersistenceException{
-    List<BC> gameList = new ArrayList<>();
-    gameList.add(game);
-    return gameList;
+    public List<BC> all() throws BCPersistenceException {
+        List<BC> gameList = new ArrayList<>();
+        gameList.add(game);
+        return gameList;
     }
-    
+
     @Override
-    public List<BCRounds> allRounds() throws BCPersistenceException{
-    List<BCRounds> roundList = new ArrayList<>();
-    roundList.add(round);
-    return roundList;
+    public List<BCRounds> allRounds() throws BCPersistenceException {
+        List<BCRounds> roundList = new ArrayList<>();
+        roundList.add(round);
+        return roundList;
     }
 
     // true if item exists and is updated
@@ -159,16 +159,14 @@ public class BCServiceLayerStub implements BCServiceLayer {
 
     @Override
     public BC create(BC game) throws BCDuplicateIdException,
-            BCDataValidationException, BCPersistenceException 
-    {
+            BCDataValidationException, BCPersistenceException {
         return game;
     }
 
     @Override
     public BCRounds createRound(BCRounds round) throws BCDuplicateIdException,
-            BCDataValidationException, BCPersistenceException  
-    {
-    return round;}
-    
-    
+            BCDataValidationException, BCPersistenceException {
+        return round;
+    }
+
 }

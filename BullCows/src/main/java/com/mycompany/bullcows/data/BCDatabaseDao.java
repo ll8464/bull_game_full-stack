@@ -84,7 +84,7 @@ public class BCDatabaseDao implements BCDao {
     }
 
     @Override
-    public BCRounds guessInput(BCRounds round)  throws BCDuplicateIdException,
+    public BCRounds guessInput(BCRounds round) throws BCDuplicateIdException,
             BCDataValidationException, BCPersistenceException {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
@@ -98,7 +98,7 @@ public class BCDatabaseDao implements BCDao {
                     Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, round.getPartialWins());
-            statement.setInt(2, round.getExactWins());            
+            statement.setInt(2, round.getExactWins());
             statement.setInt(3, round.getGameId());
             statement.setInt(4, round.getUserGuess());
             statement.setString(5, round.getResults());
@@ -114,7 +114,7 @@ public class BCDatabaseDao implements BCDao {
     //Add Guess Time in Postman in YYYY/MM/DD format
     //Each Round added must go to a previously submitted Game via gameId
     @Override
-    public BCRounds addRound(BCRounds round)  throws BCDuplicateIdException,
+    public BCRounds addRound(BCRounds round) throws BCDuplicateIdException,
             BCDataValidationException, BCPersistenceException {
 
         final String sql = "INSERT INTO ROUNDS(PartialWins, ExactWins,"
@@ -143,7 +143,7 @@ public class BCDatabaseDao implements BCDao {
     @Override
     public List<BC> getAll() throws BCPersistenceException {
 
-        final String sql = "SELECT * "                
+        final String sql = "SELECT * "
                 + " FROM GAME ORDER BY game.gameId;";
         return jdbcTemplate.query(sql, new BCMapper());
     }
@@ -239,10 +239,10 @@ public class BCDatabaseDao implements BCDao {
         public BCRounds mapRow(ResultSet rs, int index) throws SQLException {
             BCRounds td = new BCRounds();
             td.setPartialWins(rs.getInt("partialWins"));
-            td.setExactWins(rs.getInt("exactWins"));            
+            td.setExactWins(rs.getInt("exactWins"));
             td.setRoundId(rs.getInt("roundId"));
             td.setGameId(rs.getInt("gameId"));
-            td.setUserGuess(rs.getInt("userGuess"));            
+            td.setUserGuess(rs.getInt("userGuess"));
             return td;
         }
     }

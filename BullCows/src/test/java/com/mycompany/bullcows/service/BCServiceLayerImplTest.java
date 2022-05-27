@@ -18,45 +18,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author leela
  */
 //@RunWith(SpringRunner.class)
-@SpringBootTest (classes = TestApplicationConfiguration.class)
+@SpringBootTest(classes = TestApplicationConfiguration.class)
 public class BCServiceLayerImplTest {
-    
+
     @Autowired
     BCServiceLayerImpl service;
-    
-    @Autowired    
-    public BCServiceLayerImplTest(    BCServiceLayerImpl service) {
+
+    @Autowired
+    public BCServiceLayerImplTest(BCServiceLayerImpl service) {
         this.service = service;
     }
-    
-   
 
     @Test
     public void testGetDigits() throws BCPersistenceException {
         assertNotNull(service.getDigits());
     }
-    
+
     @Test
-    public void testExactCounter() throws BCPersistenceException{
+    public void testExactCounter() throws BCPersistenceException {
         BCRounds rounds = new BCRounds();
         rounds.setUserGuess(1234);
         int answer = 1234;
-        
+
         assertNotNull(service.exactCounter(rounds.getUserGuess(), answer));
-         assertEquals(service.exactCounter(rounds.getUserGuess(), answer), 4);  
-        
-    
+        assertEquals(service.exactCounter(rounds.getUserGuess(), answer), 4);
+
     }
-    
+
     @Test
-    public void testPartialCounter() throws BCPersistenceException{
+    public void testPartialCounter() throws BCPersistenceException {
         BCRounds rounds = new BCRounds();
         rounds.setUserGuess(1234);
         int answer = 4321;
-        
+
         assertNotNull(service.partialCounter(rounds.getUserGuess(), answer));
-         assertEquals(service.partialCounter(rounds.getUserGuess(), answer), 4);  
-        
-    
+        assertEquals(service.partialCounter(rounds.getUserGuess(), answer), 4);
+
     }
 }

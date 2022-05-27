@@ -9,6 +9,7 @@ package com.mycompany.bullcows.models;
  * @author leela
  */
 public class BCRounds {
+
     private int gameId;
     private int roundId;
     private int partialWins;
